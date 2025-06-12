@@ -13,8 +13,11 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md px-4 py-3 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold text-blue-600">GT Market</h1>
-        <ul className="flex gap-6 text-sm">
+        <h1 className="text-xl font-bold text-blue-600">
+          <Link to="/">GT Market</Link>
+        </h1>
+
+        <ul className="flex gap-6 text-sm items-center">
           {navItems.map((item) => (
             <li key={item.path}>
               <Link
@@ -29,6 +32,15 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+
+          <li>
+            <Link
+              to="/admin-login"
+              className="ml-4 bg-blue-600 text-white px-3 py-1.5 rounded text-sm hover:bg-blue-700"
+            >
+              Admin Login
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
