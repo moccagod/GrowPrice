@@ -13,14 +13,33 @@ const ItemList = () => {
   });
   const [message, setMessage] = useState("");
 
-  const fetchItems = async () => {
-    const { data, error } = await supabase.from("items").select("*").order("created_at", { ascending: false });
-    if (!error) setItems(data);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6;
+  const [totalItems, setTotalItems] = useState(0);
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  const fetchItems = async (page = currentPage) => {
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    const [{ data, error }, { count }] = await Promise.all([
+      supabase
+        .from("items")
+        .select("*")
+        .range(from, to)
+        .order("created_at", { ascending: false }),
+      supabase.from("items").select("id", { count: "exact", head: true }),
+    ]);
+
+    if (!error) {
+      setItems(data);
+      setTotalItems(count);
+    }
   };
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    fetchItems(currentPage);
+  }, [currentPage]);
 
   const handleFormChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -49,24 +68,22 @@ const ItemList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingItem) {
-      // update
       const { error } = await supabase
         .from("items")
         .update(formData)
         .eq("id", editingItem.id);
       if (!error) {
         setMessage("✅ Item berhasil diperbarui.");
-        fetchItems();
+        fetchItems(currentPage);
         closeForm();
       } else {
         setMessage(`❌ Gagal update: ${error.message}`);
       }
     } else {
-      // insert
       const { error } = await supabase.from("items").insert([formData]);
       if (!error) {
         setMessage("✅ Item berhasil ditambahkan.");
-        fetchItems();
+        fetchItems(currentPage);
         closeForm();
       } else {
         setMessage(`❌ Gagal tambah: ${error.message}`);
@@ -78,7 +95,7 @@ const ItemList = () => {
     if (!confirm("Yakin hapus item ini?")) return;
     const { error } = await supabase.from("items").delete().eq("id", id);
     if (!error) {
-      fetchItems();
+      fetchItems(currentPage);
     } else {
       alert("Gagal menghapus item.");
     }
@@ -196,6 +213,29 @@ const ItemList = () => {
           </div>
         ))}
       </div>
+
+      {/* Kontrol Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-6">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => p - 1)}
+            className="px-4 py-2 rounded bg-gray-200 text-sm disabled:opacity-50"
+          >
+            ← Prev
+          </button>
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => p + 1)}
+            className="px-4 py-2 rounded bg-gray-200 text-sm disabled:opacity-50"
+          >
+            Next →
+          </button>
+        </div>
+      )}
     </div>
   );
 };

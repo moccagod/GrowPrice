@@ -9,7 +9,8 @@ const Dashboard = () => {
     totalPrices: 0,
     lastInputDate: "-",
   });
-  const [itemTrends, setItemTrends] = useState([]);
+  const [itemTrends, setItemTrends] = useState([]); // 3 item acak
+  const [allTrends, setAllTrends] = useState([]); // semua item untuk analisis
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,8 +31,7 @@ const Dashboard = () => {
     const fetchTrendingItems = async () => {
       const { data: items, error: itemError } = await supabase
         .from("items")
-        .select("id, name")
-        .limit(5);
+        .select("id, name");
 
       if (itemError || !items) return;
 
@@ -44,9 +44,9 @@ const Dashboard = () => {
             .order("recorded_at", { ascending: false })
             .limit(10);
 
-          if (error || !priceHistory) return null;
+          if (error || !priceHistory || priceHistory.length === 0) return null;
 
-          const sortedPrices = [...priceHistory].reverse(); // from oldest to newest
+          const sortedPrices = [...priceHistory].reverse(); // Old to new
           const prices = sortedPrices.map((p) => p.buy_price);
 
           const latest = prices[prices.length - 1];
@@ -67,11 +67,18 @@ const Dashboard = () => {
         })
       );
 
-      setItemTrends(trends.filter(Boolean)); // remove nulls
+      const validTrends = trends.filter(Boolean);
+      setAllTrends(validTrends); // For analysis
+
+      const shuffled = [...validTrends].sort(() => 0.5 - Math.random());
+      setItemTrends(shuffled.slice(0, 3)); // Show 3 random items
     };
 
     fetchSummary();
     fetchTrendingItems();
+
+    const interval = setInterval(fetchTrendingItems, 5 * 60 * 1000); // Refresh tiap 5 menit
+    return () => clearInterval(interval);
   }, []);
 
   const handleItemClick = (itemId) => {
@@ -147,7 +154,7 @@ const Dashboard = () => {
       </div>
 
       {/* Analisis Tambahan */}
-      {itemTrends.length > 0 && (
+      {allTrends.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           {/* Volatilitas */}
           <div className="bg-white p-4 rounded shadow border">
@@ -155,13 +162,14 @@ const Dashboard = () => {
               📊 Item Paling Volatil
             </h3>
             {(() => {
-              const mostVolatile = [...itemTrends]
+              const mostVolatile = [...allTrends]
                 .map((item) => ({
                   ...item,
                   volatility:
                     Math.max(...item.prices) - Math.min(...item.prices),
                 }))
                 .sort((a, b) => b.volatility - a.volatility)[0];
+
               return mostVolatile ? (
                 <div>
                   <p className="font-medium">{mostVolatile.name}</p>
@@ -184,7 +192,7 @@ const Dashboard = () => {
               📈 Item Paling Naik
             </h3>
             {(() => {
-              const topUp = [...itemTrends]
+              const topUp = [...allTrends]
                 .filter((item) => item.latest > item.previous)
                 .sort(
                   (a, b) => b.latest - b.previous - (a.latest - a.previous)
@@ -214,7 +222,7 @@ const Dashboard = () => {
               📉 Item Paling Turun
             </h3>
             {(() => {
-              const topDown = [...itemTrends]
+              const topDown = [...allTrends]
                 .filter((item) => item.latest < item.previous)
                 .sort(
                   (a, b) => a.latest - a.previous - (b.latest - b.previous)

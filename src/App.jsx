@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin";
+
+// Admin Pages
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import ItemList from "./pages/admin/ItemList";
@@ -9,15 +10,20 @@ import PriceInputForm from "./pages/admin/PriceInputForm";
 import ItemHistoryList from "./pages/admin/ItemHistoryList";
 import PriceHistory from "./pages/admin/PriceHistory";
 
+// User Pages
+import Home from "./pages/Home";
+import ItemPriceHistory from "./pages/users/ItemPriceHistory";
+
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Public route */}
+        {/* Public User Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/riwayat/:itemId" element={<ItemPriceHistory />} />
 
-        {/* Protected Admin Routes */}
+        {/* Admin Routes */}
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="items" element={<ItemList />} />

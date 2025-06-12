@@ -25,6 +25,7 @@ const AdminSidebar = () => {
             <NavLink
               key={link.path}
               to={link.path}
+              end={link.path === "/admin"} // hanya "Dashboard" pakai end
               className={({ isActive }) =>
                 `block px-3 py-2 rounded hover:bg-gray-700 transition ${
                   isActive ? "bg-gray-700 font-semibold" : ""
