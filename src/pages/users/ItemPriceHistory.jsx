@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import Footer from "../../components/Footer";
 
 ChartJS.register(
   CategoryScale,
@@ -228,6 +229,7 @@ const ItemPriceHistory = () => {
           </>
         )}
       </div>
+      <Footer />
     </>
   );
 };
