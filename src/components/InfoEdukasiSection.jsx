@@ -3,14 +3,14 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 const edukasiList = [
   {
-    title: "Apa itu WL & DL?",
+    title: "Apakah harga item di GrowPrice update secara realtime?",
     content:
-      "WL (World Lock) dan DL (Diamond Lock) adalah mata uang utama dalam Growtopia. 1 DL = 100 WL. Biasanya digunakan untuk transaksi item antar pemain.",
+      "Ya! Harga item di GrowPrice selalu update secara realtime.",
   },
   {
-    title: "Tips Trading",
+    title: "Harga satuan item di GrowPrice itu apa?",
     content:
-      "Beli saat harga murah, jual saat harga tinggi. Pantau grafik dan tren mingguan. Hindari panic buying atau menjual saat harga jatuh.",
+      "Harga satuan item di GrowPrice adalah World Lock (WL), jadi misalnya harga item GAUT 800, artinya harga 1 item GAUT adalah 800 WL.",
   },
   {
     title: "Kenapa Harga Item Bisa Naik/Turun?",

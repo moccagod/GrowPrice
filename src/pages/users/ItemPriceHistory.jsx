@@ -128,34 +128,104 @@ const ItemPriceHistory = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4 py-8 pt-20 mt-10">
+      <div className="container mx-auto px-4 py-10 pt-24">
         {loading ? (
           <p className="text-gray-500">Memuat data...</p>
         ) : (
           <>
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-6">
-              {item?.image_url && (
-                <img
-                  src={item.image_url}
-                  alt={item.name}
-                  className="w-16 h-16 object-contain border rounded bg-white"
-                />
-              )}
-              <div>
-                <h1 className="text-2xl font-bold">{item.name}</h1>
-                <p className="text-gray-500">{item.type}</p>
+            {/* Header ala e-commerce */}
+            {/* Header ala e-commerce - versi akhir */}
+            <div className="bg-white border border-black  rounded-2xl shadow-md p-6 mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              {/* Gambar Besar */}
+              <div className="w-full flex justify-center items-center">
+                {item?.image_url ? (
+                  <img
+                    src={item.image_url}
+                    alt={item.name}
+                    className="w-full max-w-md h-auto object-contain rounded-xl"
+                  />
+                ) : (
+                  <div className="w-full max-w-md h-60 flex items-center justify-center bg-gray-100 text-gray-400 rounded-xl">
+                    Tidak ada gambar
+                  </div>
+                )}
+              </div>
+
+              {/* Informasi Item */}
+              <div className="flex flex-col gap-4">
+                <h1 className="text-4xl font-bold text-gray-900">
+                  {item.name}
+                </h1>
+
+                {/* Badge tipe */}
+                <span className="inline-block w-fit bg-black text-white text-xs font-medium px-3 py-1 rounded-full uppercase">
+                  {item.type || "Tidak diketahui"}
+                </span>
+
+                {/* Deskripsi */}
+                <div>
+                  <h2 className="text-base font-semibold text-gray-700 mb-1">
+                    Deskripsi Item
+                  </h2>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {item.description || "Belum ada deskripsi untuk item ini."}
+                  </p>
+                </div>
+
+                {/* Statistik Harga */}
+                {prices.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="bg-gray-50 p-4 border rounded-xl">
+                      <p className="text-gray-500 text-xs">
+                        Harga Beli Terakhir
+                      </p>
+                      <p className="text-xl font-bold text-blue-600">
+                        {prices.at(-1)?.buy_price}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 border rounded-xl">
+                      <p className="text-gray-500 text-xs">
+                        Harga Jual Terakhir
+                      </p>
+                      <p className="text-xl font-bold text-rose-600">
+                        {prices.at(-1)?.sell_price}
+                      </p>
+                    </div>
+                    {prices.length > 1 && (
+                      <div className="bg-gray-50 p-4 border rounded-xl col-span-2">
+                        <p className="text-gray-500 text-xs">
+                          Perubahan Harga Jual
+                        </p>
+                        <p
+                          className={`text-xl font-bold ${
+                            prices.at(-1).sell_price > prices.at(-2).sell_price
+                              ? "text-green-600"
+                              : prices.at(-1).sell_price <
+                                prices.at(-2).sell_price
+                              ? "text-red-600"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          {prices.at(-1).sell_price - prices.at(-2).sell_price}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Grafik Harga */}
-            <div className="bg-white p-4 rounded shadow mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-lg font-semibold">Grafik Riwayat Harga</h2>
+            {/* Grafik Harga */}
+            <div className="bg-white border border-black rounded-xl shadow-sm p-6 mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl md:text-4xl font-bold text-black">
+                  Grafik Riwayat Harga
+                </h2>
                 <select
                   value={rangeDays}
                   onChange={(e) => setRangeDays(Number(e.target.value))}
-                  className="text-sm px-2 py-1 border rounded"
+                  className="text-sm px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black bg-white"
                 >
                   <option value={7}>7 data terakhir</option>
                   <option value={14}>14 data terakhir</option>
@@ -165,50 +235,65 @@ const ItemPriceHistory = () => {
               </div>
 
               {filteredPrices.length > 0 ? (
-                <Line data={chartData} options={chartOptions} />
+                <div className="w-full max-w-full md:max-w-4xl md:mx-auto">
+                  <Line data={chartData} options={chartOptions} />
+                </div>
               ) : (
                 <p className="text-sm text-gray-400">Belum ada data harga.</p>
               )}
             </div>
 
             {/* Tabel Riwayat Harga */}
-            <div className="bg-white p-4 rounded shadow">
-              <h2 className="text-lg font-semibold mb-2">Riwayat Harga</h2>
+            <div className="bg-white border border-black rounded-xl shadow-sm p-6">
+              <h2 className="text-xl md:text-4xl font-bold text-black mb-4">
+                Riwayat Harga
+              </h2>
               {paginatedData.length > 0 ? (
                 <>
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="text-left border-b">
-                        <th className="py-2">Tanggal</th>
-                        <th>Harga Beli</th>
-                        <th>Harga Jual</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {paginatedData.map((p, i) => (
-                        <tr key={i} className="border-b">
-                          <td className="py-2">
-                            {new Date(p.recorded_at).toLocaleDateString(
-                              "id-ID"
-                            )}
-                          </td>
-                          <td>{p.buy_price}</td>
-                          <td>{p.sell_price}</td>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-sm border-t border-gray-200">
+                      <thead className="bg-gray-50 text-gray-700 border-b border-gray-200">
+                        <tr>
+                          <th className="py-3 text-left px-2 font-medium">
+                            Tanggal
+                          </th>
+                          <th className="py-3 text-left px-2 font-medium">
+                            Harga Beli
+                          </th>
+                          <th className="py-3 text-left px-2 font-medium">
+                            Harga Jual
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {paginatedData.map((p, i) => (
+                          <tr
+                            key={i}
+                            className="border-b border-gray-100 hover:bg-gray-50"
+                          >
+                            <td className="py-2 px-2">
+                              {new Date(p.recorded_at).toLocaleDateString(
+                                "id-ID"
+                              )}
+                            </td>
+                            <td className="px-2">{p.buy_price}</td>
+                            <td className="px-2">{p.sell_price}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
 
                   {/* Pagination */}
-                  <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center justify-between mt-6">
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                       disabled={currentPage === 1}
-                      className="px-3 py-1.5 text-sm rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition"
+                      className="px-4 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50"
                     >
                       ← Sebelumnya
                     </button>
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-gray-600">
                       Halaman {currentPage} dari {totalPages}
                     </span>
                     <button
@@ -216,7 +301,7 @@ const ItemPriceHistory = () => {
                         setCurrentPage((p) => Math.min(p + 1, totalPages))
                       }
                       disabled={currentPage === totalPages}
-                      className="px-3 py-1.5 text-sm rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 transition"
+                      className="px-4 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50"
                     >
                       Selanjutnya →
                     </button>
@@ -229,6 +314,7 @@ const ItemPriceHistory = () => {
           </>
         )}
       </div>
+
       <Footer />
     </>
   );

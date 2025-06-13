@@ -82,8 +82,8 @@ const RiwayatHarga = () => {
     <>
       <Navbar />
       <div className="px-4 mt-24 max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">
-          📘 Daftar Item (Riwayat Harga)
+        <h1 className="text-2xl md:text-4xl text-center font-bold mb-6">
+          Daftar Item Growtopia
         </h1>
 
         <AnimatedSection>
