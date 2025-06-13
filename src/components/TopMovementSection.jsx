@@ -75,7 +75,7 @@ const TopMovementSection = () => {
       }`}
     >
       <div className="flex items-center gap-3">
-        <img src={item.image_url} alt={item.name} className="w-8 h-8" />
+        <img src={item.image_url} alt={item.name} className="w-8 h-8" loading="lazy" />
         <span className="font-medium">{item.name}</span>
       </div>
       <div
