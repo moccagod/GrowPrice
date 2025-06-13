@@ -13,7 +13,7 @@ import PriceHistory from "./pages/admin/PriceHistory";
 // User Pages
 import Home from "./pages/Home";
 import ItemPriceHistory from "./pages/users/ItemPriceHistory";
-import Tentang from "./pages/users/tentang";
+import Tentang from "./pages/users/Tentang";
 import Riwayat from "./pages/users/Riwayat";
 
 const App = () => {
