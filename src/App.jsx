@@ -13,6 +13,8 @@ import PriceHistory from "./pages/admin/PriceHistory";
 // User Pages
 import Home from "./pages/Home";
 import ItemPriceHistory from "./pages/users/ItemPriceHistory";
+import Tentang from "./pages/users/tentang";
+import Riwayat from "./pages/users/Riwayat";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
         {/* Public User Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/riwayat/:itemId" element={<ItemPriceHistory />} />
+        <Route path="/tentang" element={<Tentang />} />
+        <Route path="/riwayat" element={<Riwayat />} />
 
         {/* Admin Routes */}
         <Route path="/admin-login" element={<AdminLogin />} />

@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
@@ -11,21 +10,27 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md px-4 py-3 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold text-blue-600">
-          <Link to="/">GT Market</Link>
-        </h1>
+    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white shadow-md border rounded-full px-8 py-3 z-50 w-[90%] max-w-5xl">
+      <div className="flex items-center justify-between w-full">
+        {/* Logo */}
+        <Link to="/">
+          <img
+            src="/images/logo.png" // Ganti ini dengan path gambarmu
+            alt="Logo"
+            className="w-7 h-7 object-contain"
+          />
+        </Link>
 
-        <ul className="flex gap-6 text-sm items-center">
+        {/* Navigation Menu */}
+        <ul className="flex gap-6 text-sm text-black items-center">
           {navItems.map((item) => (
             <li key={item.path}>
               <Link
                 to={item.path}
                 className={`${
                   location.pathname === item.path
-                    ? "text-blue-600 font-semibold"
-                    : "text-gray-600 hover:text-blue-500"
+                    ? "text-black font-semibold"
+                    : "text-gray-700 hover:text-black"
                 }`}
               >
                 {item.label}
@@ -36,7 +41,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/admin-login"
-              className="ml-4 bg-blue-600 text-white px-3 py-1.5 rounded text-sm hover:bg-blue-700"
+              className="ml-2 bg-black text-white px-4 py-1.5 rounded-full text-sm hover:bg-gray-900"
             >
               Admin Login
             </Link>
