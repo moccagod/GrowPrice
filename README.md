@@ -1,12 +1,106 @@
-# React + Vite
+Berikut contoh isi `README.md` untuk proyek **Growprice**, aplikasi pantauan harga item Growtopia, lengkap dengan deskripsi, fitur, cara instalasi, dan teknologi yang digunakan:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+````markdown
+# 🌱 Growprice
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Growprice** adalah aplikasi berbasis web untuk melacak dan memantau perubahan harga item-item di game **Growtopia**, lengkap dengan grafik pergerakan harga, statistik, dan tampilan seperti pasar saham.
 
-## Expanding the ESLint configuration
+## 🧭 Fitur Utama
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 📈 Grafik riwayat harga beli dan jual setiap item
+- 🔍 Filter rentang waktu grafik (7, 30, 90 hari, atau semua)
+- 🗂️ Daftar semua item dengan pagination dan sorting
+- 💹 Highlight item dengan kenaikan/penurunan harga tertinggi
+- 👨‍💼 Halaman Admin untuk input harga dan kontrol data
+- 🔒 Autentikasi Supabase (opsional untuk admin)
+
+## 🖼️ Tampilan
+
+- Tampilan responsif dan modern (seperti dashboard pasar saham)
+- Menggunakan **Chart.js** untuk visualisasi data
+- Komponen modular dengan React
+
+## ⚙️ Teknologi yang Digunakan
+
+- **React.js** — Frontend
+- **Supabase** — Backend & Database (PostgreSQL + Auth + API)
+- **Tailwind CSS** — Styling
+- **Chart.js** — Grafik harga
+
+## 🚀 Cara Instalasi
+
+1. **Clone repositori**
+
+```bash
+git clone https://github.com/USERNAME/growprice.git
+cd growprice
+````
+
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+3. **Buat file konfigurasi Supabase**
+
+Buat file `.env` dan isi dengan:
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
+
+4. **Jalankan aplikasi**
+
+```bash
+npm run dev
+```
+
+Aplikasi akan berjalan di `http://localhost:5173`
+
+## 🗃️ Struktur Folder
+
+```
+growprice/
+├── src/
+│   ├── pages/           # Halaman seperti Home, Dashboard, Riwayat, Detail Item
+│   ├── components/      # Komponen UI (Navbar, Card, dll)
+│   ├── supabase/        # Konfigurasi Supabase client
+│   ├── App.jsx
+│   └── main.jsx
+├── public/
+├── .env
+├── README.md
+└── package.json
+```
+
+## 🛡️ Lisensi
+
+Proyek ini menggunakan lisensi MIT. Silakan gunakan, modifikasi, dan kontribusi dengan bebas.
+
+---
+
+## ✨ Kontribusi
+
+Kontribusi terbuka untuk siapa saja!
+Silakan buat PR, issue, atau fork dan kembangkan sesuai kebutuhanmu.
+
+---
+
+Made with ❤️ by \[YourName] — follow for update harga Growtopia real-time.
+
+```
+
+---
+
+### 📝 Tips:
+
+- Ganti `USERNAME` dengan nama pengguna GitHub kamu.
+- Tambahkan badge CI/CD atau deploy jika kamu host di Vercel/Netlify.
+- Bisa disesuaikan lagi kalau kamu ingin `README` lebih singkat atau langsung ke fitur utama.
+
+Kalau kamu ingin saya bantu buat versi `README.md` dalam bahasa Inggris juga, tinggal bilang!
+```
